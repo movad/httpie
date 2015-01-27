@@ -62,6 +62,8 @@ class Environment(object):
 
         # Keyword arguments > stream.encoding > default utf8
         if self.stdin_encoding is None:
+#if there is no stdinput encoding, then try to get the attribute of
+#the encoding if it exist, if no, then use utf8 encoding as default
             self.stdin_encoding = getattr(
                 self.stdin, 'encoding', None) or 'utf8'
         if self.stdout_encoding is None:

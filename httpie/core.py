@@ -99,6 +99,7 @@ def main(args=sys.argv[1:], env=Environment()):
 
     try:
         args = parser.parse_args(args=args, env=env)
+#have to check what can this actually do
 
         if args.download:
             args.follow = True  # --download implies --follow.
