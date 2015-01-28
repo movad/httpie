@@ -4,6 +4,7 @@ NOTE: the CLI interface may change before reaching v1.0.
 
 """
 from textwrap import dedent, wrap
+#this is where the dedent come from!! TEXTWRAP!!!
 #noinspection PyCompatibility
 from argparse import (RawDescriptionHelpFormatter, FileType,
                       OPTIONAL, ZERO_OR_MORE, SUPPRESS)
@@ -40,6 +41,11 @@ class HTTPieHelpFormatter(RawDescriptionHelpFormatter):
         text = dedent(text).strip() + '\n\n'
         return text.splitlines()
 
+################Let's not focus on the formatter class as it is the most important concept###
+#####I should focus more on how did it happen, how did it make use of the urllib
+##### how is the compatibility is being maintained, these are more important skill
+##### and concept to learn about
+
 parser = Parser(
     formatter_class=HTTPieHelpFormatter,
     description='%s <http://httpie.org>' % __doc__.strip(),
@@ -54,6 +60,14 @@ parser = Parser(
     """)
 )
 
+#######################################################################
+# parser is a Parser object now and it will follow the HTTPieHelpFormatter
+# to format the helper and stdout to the console
+# also, the epilog means extra description after the whole argument
+# this formatter aims to help people who is not familiar with the httpie
+# dont know how to make use of this great tiny little app
+#######################################################################
+
 
 #######################################################################
 # Positional arguments.
@@ -67,6 +81,13 @@ positional = parser.add_argument_group(
 
     """)
 )
+
+#######################################################################
+# method refers to GET, POST, PUT, DELETE... when args.method == 'GET'
+# OPTIONAL is a constant imported from argparse
+# and the default value of positional argument method is None!
+# This is an easy argument
+#######################################################################
 positional.add_argument(
     'method',
     metavar='METHOD',
@@ -83,6 +104,11 @@ positional.add_argument(
 
     """
 )
+#######################################################################
+#This mean url is a must add positional argument!
+#not something you can ignore like method positional argument
+#as method positional argument has an parameters nargs=OPTIONAL
+#######################################################################
 positional.add_argument(
     'url',
     metavar='URL',
@@ -96,11 +122,20 @@ positional.add_argument(
 
     """
 )
+
+#######################################################################
+# It has stated clearly, the number of items positional argument  is 0 or more
+#######################################################################
 positional.add_argument(
     'items',
     metavar='REQUEST_ITEM',
     nargs=ZERO_OR_MORE,
     type=KeyValueArgType(*SEP_GROUP_ALL_ITEMS),
+###############add an r before ''' means that anything inside the helper
+############## is raw data, telling python do not try to convert its meaning
+############# Eg. '\n' means an extra line
+############## Eg. r'\n' means \n in the text!
+#############  this is a good reminder for beginner in python
     help=r"""
     Optional key-value pairs to be included in the request. The separator used
     determines the type:
@@ -146,6 +181,11 @@ positional.add_argument(
 # Content type.
 #######################################################################
 
+#######################################################################
+# Reason of different argument_group is because they poessess different functioning
+# some responsible for url, some responsible for formatting
+# place them in same group is not reasonable as it may cause chaos
+#######################################################################
 content_type = parser.add_argument_group(
     title='Predefined Content Types',
     description=None
