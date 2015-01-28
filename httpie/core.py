@@ -65,7 +65,7 @@ def decode_args(args, stdin_encoding):
         if type(arg) == bytes else arg
         for arg in args
     ]
-
+###############have to understand above!#######################################################
 
 def main(args=sys.argv[1:], env=Environment()):
     """Run the main program and write the output to ``env.stdout``.
@@ -86,19 +86,28 @@ def main(args=sys.argv[1:], env=Environment()):
         level = kwargs.get('level', 'error')
         env.stderr.write('\nhttp: %s: %s\n' % (level, msg))
 
-    debug = '--debug' in args
-    traceback = debug or '--traceback' in args
+    debug = '--debug' in args # makes debug a boolean variable
+    traceback = debug or '--traceback' in args # traceback is also a boolean variable
+    #they essentially means, if there are argument which is --debug or --traceback in argument
+    #then traceback variable is true
     exit_status = ExitStatus.OK
 
     if debug:
+    #if there is '--debug' in argument, then print the information of the enviroment
+        #this mean if debug is true, print the standard output to the console first
         print_debug_info(env)
+        #if there is --debug in the argument, return ExitStatus.OK(it means leave the application)
         if args == ['--debug']:
             return exit_status
 
     download = None
 
     try:
+        #The arguments has same name with the parameter, so this might be confusing at first
+        #this enviroment variable is an Enviroment object defined in combat.py
         args = parser.parse_args(args=args, env=env)
+        #after parsing the argument from the Parser class, it might have an download attribute
+        #assigned by parse_args, args.downlaod is True(exist), then args.follow is also True
 
         if args.download:
             args.follow = True  # --download implies --follow.
