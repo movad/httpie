@@ -108,6 +108,7 @@ def main(args=sys.argv[1:], env=Environment()):
         args = parser.parse_args(args=args, env=env)
         #after parsing the argument from the Parser class, it might have an download attribute
         #assigned by parse_args, args.downlaod is True(exist), then args.follow is also True
+#have to check what can this actually do
 
         if args.download:
             args.follow = True  # --download implies --follow.
