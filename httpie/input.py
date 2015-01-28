@@ -174,6 +174,10 @@ class Parser(ArgumentParser):
             self.error('Cannot use --output, -o with redirected output.')
 
         if self.args.download:
+            # args has attribute of download because!!!
+            # it was assigned to a Namespace at first, then it will 
+            # has properties of that arg parsed
+            # at the same time, download is a boolean var, so it works!
             # FIXME: Come up with a cleaner solution.
             if not self.env.stdout_isatty:
                 # Use stdout as the download output file.
