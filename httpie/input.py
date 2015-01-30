@@ -316,6 +316,7 @@ class Parser(ArgumentParser):
          and `args.files`.
 
         """
+#this items split args.items to args.data, args.params, args.headers, by those == := @ =@ :=@
         try:
             items = parse_items(
                 items=self.args.items,

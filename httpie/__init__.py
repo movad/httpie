@@ -6,6 +6,7 @@ __author__ = 'Jakub Roztocil'
 __version__ = '0.9.0'
 __licence__ = 'BSD'
 
+#when httpie is imported or called, this is a constructor of the program
 
 class ExitStatus:
     """Exit status code constants."""

@@ -18,10 +18,14 @@ DEFAULT_UA = 'HTTPie/%s' % __version__
 def get_response(args, config_dir):
     """Send the request and return a `request.Response`."""
 
+#if no --session is passed as param, then the request kwargs is normally passed to response by
+# request and if --debug is true, then use dump_request to show the args
     if not args.session and not args.session_read_only:
         requests_kwargs = get_requests_kwargs(args)
         if args.debug:
             dump_request(requests_kwargs)
+#requests.request means to construct a sends a Request class and return a Response object
+#the param name is exactly same as httpie Eg. method=XXX, url=XXX, params=XXX, data=XXX....)
         response = requests.request(**requests_kwargs)
     else:
         response = sessions.get_response(
@@ -75,6 +79,10 @@ def get_requests_kwargs(args, base_headers=None):
     # Serialize JSON data, if needed.
     data = args.data
     auto_json = data and not args.form
+    #below is a typical case of logic boolean or boolean and boolean
+    # python will parse the boolean from left to right, from top to bottom
+    #so it means that, if args.json is true, then go on    ,
+    #if args.json is false, then check if auto_json and     isinstance(data, dict) is true or false
     if args.json or auto_json and isinstance(data, dict):
         if data:
             data = json.dumps(data)
